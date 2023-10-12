@@ -1,0 +1,7 @@
+ZROBIONE:
+- Założenie github i stworzenie repozytorium, w którym będzie tworzony projekt
+- Stworzenie opisu README i uzupełnienie go o podstawowe informacje
+- Stworzenie głównego pliku main.cpp, w którym będzie pisana główna część programu
+
+DALSZY PLAN:
+- Dowiedzenie się więcej na zajęciach aby wiedzieć jak zacząć pisać program i graficznie wyświetlać jego działanie
