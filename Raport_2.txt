@@ -1,6 +1,0 @@
-ZROBIONE:
-- Nauczenie się pojęcia i wykorzystania struktur, klasy i konstruktora.
-PROBLEMY:
-- Ciągły brak wiedzy sposobu wyświetlania obrazu gry z kodu.
-DALSZY PLAN:
-- Dowiedzenie się więcej na zajęciach aby wiedzieć jak zacząć pisać program i graficznie wyświetlać jego działanie.
