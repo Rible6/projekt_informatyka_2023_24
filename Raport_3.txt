@@ -1,0 +1,5 @@
+ZROBIONE:
+- Nauczenie się podstawowych informacji apropo technologii SFML.
+- Podpięcie biblioteki SFML do środkowiska programowania.
+DALSZY PLAN:
+- Dalsza nauka biblioteki SFML i wdrażanie jej do programu.
