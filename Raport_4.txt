@@ -1,0 +1,8 @@
+ZROBIONE:
+- Dodanie gitignore do repozytorium
+- Rozpoczęcie działania nad programowaniem projektu i grafiką
+- Pierwsza praca nad teksturami głównego obiektu
+DALSZY PLAN:
+- Tworzenie tekstur dla kolejnych obiektów
+- Programowanie programu
+- Dalsza nauka na temat SFML
