@@ -1,0 +1,8 @@
+ZROBIONE:
+- Dodanie podstawowych struktur do kodu
+- Dokończenie teksur podstawowego obiektu
+- Wdrożenie wykonanie tekstury do kodu
+DALSZY PLAN:
+- Tworzenie tekstur dla kolejnych obiektów
+- Dalsze programowanie programu
+- Dalsza nauka na temat SFML
