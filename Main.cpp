@@ -6,6 +6,8 @@
 using namespace std;
 using namespace sf;
 
+Event event;
+
 class Arrow
 {
 private:
@@ -20,12 +22,15 @@ public:
 	{
 		pos.x = x_in;
 		pos.y = y_in;
-		dx = 20;
-		dy = 20;
+		dx = 2;
+		dy = 2;
 		tex.loadFromFile("strzalka.png");
 		pSprite.setTexture(tex);
 		pSprite.setPosition(pos);
-		IntRect texArrow(80, 0, 80, 80);
+		texArrow.left=0;
+		texArrow.top = 0;
+		texArrow.height = 80;
+		texArrow.width = 80;
 		pSprite.setTextureRect(texArrow);
 	}
 	Sprite getArrow() { return pSprite; }
@@ -37,9 +42,53 @@ public:
 		pSprite.move(por);
 		pos = pSprite.getPosition();
 	}
-	void animuj() 
+	void animuj()
 	{
-
+		if (Keyboard::isKeyPressed(Keyboard::W) && Keyboard::isKeyPressed(Keyboard::D))
+		{
+			przesun(dx, -dy);
+			texArrow.left = 160;
+			texArrow.top = 80;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::W) && Keyboard::isKeyPressed(Keyboard::A))
+		{
+			przesun(-dx, -dy);
+			texArrow.left = 160;
+			texArrow.top = 160;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::S) && Keyboard::isKeyPressed(Keyboard::D))
+		{
+			przesun(dx, dy);
+			texArrow.left = 80;
+			texArrow.top = 80;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::S) && Keyboard::isKeyPressed(Keyboard::A))
+		{
+			przesun(-dx, dy);
+			texArrow.left = 80;
+			texArrow.top = 160;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::W))
+		{
+			przesun(0, -dy);
+			texArrow.left = 160;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::S))
+		{
+			przesun(0, dy);
+			texArrow.left = 80;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::A))
+		{
+			przesun(-dx, 0);
+			texArrow.top = 160;
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::D))
+		{
+			przesun(dx, 0);
+			texArrow.top = 80;
+		}
+		pSprite.setTextureRect(texArrow);
 	}
 };
 
@@ -62,7 +111,6 @@ int main()
 	Clock zegar;
 	while (window.isOpen())
 	{
-		Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
