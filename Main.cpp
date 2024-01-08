@@ -38,6 +38,22 @@ public:
 		Vector2f por;
 		por.x = x_in;
 		por.y = y_in;
+		if (pos.x < 0 && x_in<0)
+		{
+			por.x = 0;
+		}
+		if (pos.x>1221 && x_in > 0)
+		{
+			por.x = 0;
+		}
+		if (pos.y < 0 && y_in < 0)
+		{
+			por.y = 0;
+		}
+		if (pos.y > 870 && y_in > 0)
+		{
+			por.y = 0;
+		}
 		pSprite.move(por);
 		pos = pSprite.getPosition();
 	}
@@ -111,13 +127,13 @@ public:
 		pos.y = -200;
 		dx = float(distdx(gen))/100;
 		dy = float(distdy(gen))/100;
-		tex.loadFromFile("strzalka.png");
+		tex.loadFromFile("meteo.png");
 		pSprite.setTexture(tex);
 		pSprite.setPosition(pos);
 		texMeteor.left = 0;
 		texMeteor.top = 0;
-		texMeteor.height = 80;
-		texMeteor.width = 80;
+		texMeteor.height = 120;
+		texMeteor.width = 120;
 		pSprite.setTextureRect(texMeteor);
 	}
 	Sprite getMeteor() { return pSprite; }
@@ -127,6 +143,7 @@ public:
 		por.x = x_in;
 		por.y = y_in;
 		pSprite.move(por);
+		hitbox.setPosition(pSprite.getPosition());
 		pos = pSprite.getPosition();
 	}
 	void animuj()
@@ -135,11 +152,32 @@ public:
 	}
 	bool usun()
 	{
-		if (pos.y > 1050) return 1;
-		else return 0;
+		if (pos.y > 1050) return true;
+		else return false;
 	}
 };
 
+void koniec(Sprite getarrow, Sprite getmeteor,RenderWindow& window)
+{
+	FloatRect arrow = getarrow.getGlobalBounds();
+	FloatRect meteor = getmeteor.getGlobalBounds();
+	float x = (getarrow.getPosition().x + (arrow.width / 2)-5) - (getmeteor.getPosition().x + (meteor.width / 2));
+	float y= (getarrow.getPosition().y+7 + (arrow.height / 2)-5) - (getmeteor.getPosition().y + (meteor.height / 2));
+	float distance = sqrt((x * x) + (y * y));
+	if (distance <=(arrow.width/2)-5+(meteor.width/2))
+	{
+		Font font;
+		font.loadFromFile("AlienRavager.ttf");
+		Text text("KONIEC GRY!", font, 60);
+		text.setFillColor(Color::Black);
+		FloatRect textBounds = text.getLocalBounds();
+		text.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
+		text.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+		window.draw(text);
+		window.display();
+		sleep(seconds(1));
+	}
+}
 
 int main()
 {
@@ -243,50 +281,70 @@ int main()
 		}
 		window.clear(Color::White);
 		window.draw(player.getArrow());
-		if(cd[0]!=nullptr)
-		window.draw(cd[0]->getMeteor());
+		if (cd[0] != nullptr)
+		{
+			window.draw(cd[0]->getMeteor());
+			koniec(player.getArrow(), cd[0]->getMeteor(), window);
+		}
 		if (cd[1] != nullptr)
-		window.draw(cd[1]->getMeteor());
+		{
+			window.draw(cd[1]->getMeteor());
+			koniec(player.getArrow(), cd[1]->getMeteor(), window);
+		}
 		if (cd[2] != nullptr)
-		window.draw(cd[2]->getMeteor());
+		{
+			window.draw(cd[2]->getMeteor());
+			koniec(player.getArrow(), cd[2]->getMeteor(), window);
+		}
 		if (cd[3] != nullptr)
-		window.draw(cd[3]->getMeteor());
+		{
+			window.draw(cd[3]->getMeteor());
+			koniec(player.getArrow(), cd[3]->getMeteor(), window);
+		}
 		if (cd[4] != nullptr)
-		window.draw(cd[4]->getMeteor());
+		{
+			window.draw(cd[4]->getMeteor());
+			koniec(player.getArrow(), cd[4]->getMeteor(), window);
+		}
 		if (cd[5] != nullptr)
-		window.draw(cd[5]->getMeteor());
+		{
+			window.draw(cd[5]->getMeteor());
+			koniec(player.getArrow(), cd[5]->getMeteor(), window);
+		}
 		if (cd[6] != nullptr)
-		window.draw(cd[6]->getMeteor());
+		{
+			window.draw(cd[6]->getMeteor());
+			koniec(player.getArrow(), cd[6]->getMeteor(), window);
+		}
 		if (cd[7] != nullptr)
-		window.draw(cd[7]->getMeteor());
+		{
+			window.draw(cd[7]->getMeteor());
+			koniec(player.getArrow(), cd[7]->getMeteor(), window);
+		}
 		if (cd[8] != nullptr)
-		window.draw(cd[8]->getMeteor());
+		{
+			window.draw(cd[8]->getMeteor());
+			koniec(player.getArrow(), cd[8]->getMeteor(), window);
+		}
 		if (cd[9] != nullptr)
-		window.draw(cd[9]->getMeteor());
+		{
+			window.draw(cd[9]->getMeteor());
+			koniec(player.getArrow(), cd[9]->getMeteor(), window);
+		}
 		window.display();
 		if (zegar1.getElapsedTime().asMilliseconds() > 5.0f)
 		{
 			player.animuj();
-			if (cd[0] != nullptr)
-			cd[0]->animuj();
-			if (cd[1] != nullptr)
-			cd[1]->animuj();
-			if (cd[2] != nullptr)
-			cd[2]->animuj();
-			if (cd[3] != nullptr)
-			cd[3]->animuj();
-			if (cd[4] != nullptr)
-			cd[4]->animuj();
-			if (cd[5] != nullptr)
-			cd[5]->animuj();
-			if (cd[6] != nullptr)
-			cd[6]->animuj();
-			if (cd[7] != nullptr)
-			cd[7]->animuj();
-			if (cd[8] != nullptr)
-			cd[8]->animuj();
-			if (cd[9] != nullptr)
-			cd[9]->animuj();
+			if (cd[0] != nullptr) cd[0]->animuj();
+			if (cd[1] != nullptr) cd[1]->animuj();
+			if (cd[2] != nullptr) cd[2]->animuj();
+			if (cd[3] != nullptr) cd[3]->animuj();
+			if (cd[4] != nullptr) cd[4]->animuj();
+			if (cd[5] != nullptr) cd[5]->animuj();
+			if (cd[6] != nullptr) cd[6]->animuj();
+			if (cd[7] != nullptr) cd[7]->animuj();
+			if (cd[8] != nullptr) cd[8]->animuj();
+			if (cd[9] != nullptr) cd[9]->animuj();
 			zegar1.restart();
 		}
 	}
