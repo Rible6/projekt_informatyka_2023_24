@@ -1,11 +1,22 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 #include <ctime>
 #include <cstdlib>
 #include <random>
+#include <cmath>
 using namespace std;
 using namespace sf;
+
+Font font;
+int punkt = 0;
+int tim1 = 0;
+int tim0 = 0;
+int punkt0 = 0;
 
 class Arrow
 {
@@ -32,7 +43,21 @@ public:
 		texArrow.width = 80;
 		pSprite.setTextureRect(texArrow);
 	}
+
 	Sprite getArrow() { return pSprite; }
+
+	void odczyt()
+	{
+		FILE* fp;
+		fp = fopen("zapis.dat", "a+");
+		fseek(fp, 0, SEEK_SET);
+		fread(&punkt0, sizeof(int), 1, fp);
+		fread(&tim0, sizeof(int), 1, fp);
+		fread(&pos, sizeof(Vector2f), 1, fp);
+		pSprite.setPosition(pos);
+		fclose(fp);
+	}
+
 	void przesun(float x_in, float y_in)
 	{
 		Vector2f por;
@@ -57,6 +82,7 @@ public:
 		pSprite.move(por);
 		pos = pSprite.getPosition();
 	}
+
 	void animuj()
 	{
 		if (Keyboard::isKeyPressed(Keyboard::W) && Keyboard::isKeyPressed(Keyboard::D))
@@ -136,20 +162,23 @@ public:
 		texMeteor.width = 120;
 		pSprite.setTextureRect(texMeteor);
 	}
+
 	Sprite getMeteor() { return pSprite; }
+
 	void przesun(float x_in, float y_in)
 	{
 		Vector2f por;
 		por.x = x_in;
 		por.y = y_in;
 		pSprite.move(por);
-		hitbox.setPosition(pSprite.getPosition());
 		pos = pSprite.getPosition();
 	}
+
 	void animuj()
 	{
 		przesun(dx, dy);
 	}
+
 	bool usun()
 	{
 		if (pos.y > 1050) return true;
@@ -157,7 +186,7 @@ public:
 	}
 };
 
-void koniec(Sprite getarrow, Sprite getmeteor,RenderWindow& window)
+void koniec(Sprite getarrow, Sprite getmeteor, RenderWindow& window)
 {
 	FloatRect arrow = getarrow.getGlobalBounds();
 	FloatRect meteor = getmeteor.getGlobalBounds();
@@ -166,8 +195,6 @@ void koniec(Sprite getarrow, Sprite getmeteor,RenderWindow& window)
 	float distance = sqrt((x * x) + (y * y));
 	if (distance <=(arrow.width/2)-5+(meteor.width/2))
 	{
-		Font font;
-		font.loadFromFile("AlienRavager.ttf");
 		Text text("KONIEC GRY!", font, 60);
 		text.setFillColor(Color::Black);
 		FloatRect textBounds = text.getLocalBounds();
@@ -175,24 +202,45 @@ void koniec(Sprite getarrow, Sprite getmeteor,RenderWindow& window)
 		text.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 		window.draw(text);
 		window.display();
-		sleep(seconds(1));
+		sleep(seconds(2));
+		window.close();
 	}
+}
+
+void zapis(Vector2f xy)
+{
+	FILE* fp;
+	fp = fopen("zapis.dat", "w+");
+	fseek(fp, 0, SEEK_SET);
+	fwrite(&punkt, sizeof(int), 1, fp);
+	fwrite(&tim1, sizeof(int), 1, fp);
+	fwrite(&xy, sizeof(Vector2f), 1, fp);
+	fclose(fp);
 }
 
 int main()
 {
 	RenderWindow window(VideoMode(1300, 950), "VectorSpeed");
 	Event event;
+	font.loadFromFile("AlienRavager.ttf");
+	Text punkty;
+	punkty.setFont(font);
+	punkty.setCharacterSize(30);
+	punkty.setFillColor(sf::Color::Black);
+	punkty.setPosition(10,10);
 	Arrow player(610, 435);
 	Meteor* cd[10] = { nullptr };
 	Clock zegar1;
 	Clock zegar2;
 	Time czas;
-	int tim1;
+	player.odczyt();
 	while (window.isOpen())
 	{
 		czas = zegar2.getElapsedTime();
-		tim1 = czas.asSeconds();
+		tim1 = tim0 + czas.asSeconds();
+		punkt = punkt0 + czas.asSeconds() * 12;
+		zapis(player.getArrow().getPosition());
+		punkty.setString("Score: " + to_string(punkt) + "\n"+"Czas: " + to_string(tim1));
 		if (cd[0] == nullptr) cd[0] = new Meteor;
 		else if (cd[0]->usun() == 1)
 		{
@@ -280,6 +328,7 @@ int main()
 				window.close();
 		}
 		window.clear(Color::White);
+		window.draw(punkty);
 		window.draw(player.getArrow());
 		if (cd[0] != nullptr)
 		{
