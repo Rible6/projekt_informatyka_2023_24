@@ -218,6 +218,76 @@ void zapis(Vector2f xy)
 	fclose(fp);
 }
 
+void F2(RenderWindow& window, Vector2f xy)
+{
+	if (Keyboard::isKeyPressed(Keyboard::F2))
+	{
+		zapis(xy);
+		window.close();
+	}
+}
+
+void F1(RenderWindow& window, Vector2f xy)
+{
+	if (Keyboard::isKeyPressed(Keyboard::F1))
+	{
+		RectangleShape overlay(Vector2f(600, 400));
+		overlay.setFillColor(Color(0, 0, 0, 128));
+		overlay.setOutlineColor(Color::Black);
+		overlay.setOutlineThickness(5);
+		overlay.setPosition((window.getSize().x / 2)-300, (window.getSize().y / 2)-300);
+		Text text("                                  HELP\nPrzycisk:\n W - poruszanie sie do przodu\n S - poruszanie sie do tylu\n D - poruszanie sie w prawo\n A - poruszanie sie w lewo\n F1 - wyswietlenie ekranu HELP\n F2 - automatyczne zakonczenie\n programu\n ESC - zakonczenie programu\n M - wyjscie do menu", font, 30);
+		text.setFillColor(Color::Black);
+		text.setPosition((window.getSize().x / 2) - 280, (window.getSize().y / 2) - 280);
+		window.draw(overlay);
+		window.draw(text);
+		window.display();
+		sleep(seconds(0.3));
+		while (window.isOpen())
+		{
+			F2(window, xy);
+			if (Keyboard::isKeyPressed(Keyboard::F1))
+			{
+				sleep(seconds(0.2));
+				break;
+			}
+		}
+	}
+}
+
+void ESC(RenderWindow& window, Vector2f xy)
+{
+	if (Keyboard::isKeyPressed(Keyboard::Escape))
+	{
+		RectangleShape overlay(Vector2f(700, 100));
+		overlay.setFillColor(Color(0, 0, 0, 128));
+		overlay.setOutlineColor(Color::Black);
+		overlay.setOutlineThickness(5);
+		overlay.setPosition((window.getSize().x / 2) - 350, (window.getSize().y / 2) - 100);
+		Text text("Czy na pewno chcesz opuscic program?\n            [Tak - Enter]             [Nie - Escape]", font, 30);
+		text.setFillColor(Color::Black);
+		text.setPosition((window.getSize().x / 2) - 320, (window.getSize().y / 2) - 85);
+		window.draw(overlay);
+		window.draw(text);
+		window.display();
+		sleep(seconds(0.3));
+		while (window.isOpen())
+		{
+			F2(window, xy);
+			if (Keyboard::isKeyPressed(Keyboard::Enter))
+			{
+				zapis(xy);
+				window.close();
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Escape)) 
+			{
+				sleep(seconds(0.2));
+				break;
+			}
+		}
+	}
+}
+
 int main()
 {
 	RenderWindow window(VideoMode(1300, 950), "VectorSpeed");
@@ -233,14 +303,15 @@ int main()
 	Clock zegar1;
 	Clock zegar2;
 	Time czas;
-	player.odczyt();
 	while (window.isOpen())
 	{
 		czas = zegar2.getElapsedTime();
 		tim1 = tim0 + czas.asSeconds();
 		punkt = punkt0 + czas.asSeconds() * 12;
-		zapis(player.getArrow().getPosition());
 		punkty.setString("Score: " + to_string(punkt) + "\n"+"Czas: " + to_string(tim1));
+		F1(window, player.getArrow().getPosition());
+		F2(window, player.getArrow().getPosition());
+		ESC(window, player.getArrow().getPosition());
 		if (cd[0] == nullptr) cd[0] = new Meteor;
 		else if (cd[0]->usun() == 1)
 		{
