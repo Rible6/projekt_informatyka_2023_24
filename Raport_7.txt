@@ -1,0 +1,18 @@
+ZROBIONE:
+- Wykonanie tekstury meteorytu
+- Do kończenie głównych klas arrow oraz meteor
+- Utworzenie nowej klasy button głównie przydatnej do menu
+- Utworzenie menu
+- Utworzenie przycisków do menu które można klikać myszką i wykonują swoje polecenia
+- Utworzenie randomowego tworzenia się i usuwania meteorytów
+- Dodanie większej ilości meteorytów z czasem trwania gry
+- Dodanie punktacji i licznika czasu
+- Dodanie wyjścia z gry za pomocą przycisku F1 i szybkiego wyjścia za pomocą F2
+- Dodanie okna pomocy które w dowolnym momencie gry można włączyć aby zobaczyć co robią wszystkie przyciski
+- Dodanie funkcji odpowiadającą za przegranie gry
+- Dodanie ustawień w których można zmienić tryb gry na dwa razy szybszy
+- Dodanie zapisu statusu gry do pliku
+- Dodanie kolizji obiektów
+- Dodanie czcionki
+DALSZY PLAN:
+- Gra skończona :D
